@@ -80,7 +80,7 @@ After the `pipeline` line, add:
 # ...
 
 # Create tasks
-create_prompt_task = PromptTask(
+createprompttask = PromptTask(
     """
     Create a prompt for an Image Generation pipeline for the following topic: 
     {{ args[0] }}
@@ -157,7 +157,7 @@ After the PromptTask line, add:
 # ...
 
 # Add tasks to pipeline
-pipeline.add_task(create_prompt_task)
+pipeline.add_task(createprompttask)
 ```
 
 At this point, your pipeline flow graph looks like:
@@ -217,17 +217,17 @@ The next two tasks we create will be "fake" ones - meaning they are simply there
 
 The fake image generation task will be another `PromptTask` that will tell the LLM to "pretend" to generate an image. It will take the `output` from the parent task, and feed it to this task using the Jinja2 `{{ }}` syntax. If you've taken the [Compare Movies - Workflows](../compare-movies-workflow/index.md) course you've seen this before.
 
-Create the task in your `app.py` file by inserting the following code after the `create_prompt_task` but before the section of the code where you add the tasks to the pipeline.
+Create the task in your `app.py` file by inserting the following code after the `createprompttask` but before the section of the code where you add the tasks to the pipeline.
 
 ```python hl_lines="8-16"
 # ...
 
 # Create tasks
-create_prompt_task = PromptTask(
+createprompttask = PromptTask(
     # ...
 )
 
-generate_image_task = PromptTask(
+generateimagetask = PromptTask(
     """
     Pretend to create an image using this prompt, 
     and return the filename of the generated image: 
@@ -252,12 +252,12 @@ Find the `add_task` line in your code. We're going to modify it to add _multiple
 Modify this line:
 
 ```python
-pipeline.add_task(create_prompt_task)
+pipeline.add_task(createprompttask)
 ```
 
 Turn it to:
 ```python
-pipeline.add_tasks(create_prompt_task, generate_image_task)
+pipeline.add_tasks(createprompttask, generateimagetask)
 
 ```
 
@@ -278,7 +278,7 @@ load_dotenv()  # Load your environment
 pipeline = Pipeline()
 
 # Create tasks
-create_prompt_task = PromptTask(
+createprompttask = PromptTask(
     """
     Create a prompt for an Image Generation pipeline for the following topic: 
     {{ args[0] }}
@@ -288,7 +288,7 @@ create_prompt_task = PromptTask(
     id="Create Prompt Task",
 )
 
-generate_image_task = PromptTask(
+generateimagetask = PromptTask(
     """
     Pretend to create an image using this prompt, 
     and return the filename of the generated image: 
@@ -298,7 +298,7 @@ generate_image_task = PromptTask(
 )
 
 # Add tasks to pipeline
-pipeline.add_tasks(create_prompt_task, generate_image_task)
+pipeline.add_tasks(createprompttask, generateimagetask)
 
 # Run the pipeline
 pipeline.run("a cow")
@@ -395,21 +395,21 @@ In this task, we'll "display" the image to the user. Later in the course, we'll 
 
 The fake view image task will also be a PromptTask that tells the LLM to pretend to display the image to the viewer. Just like before, it will take the `output` from the parent task, and feed it to this one.
 
-Update the `app.py` file by inserting a new `display_image_task` after the previous `generate_image_task`.
+Update the `app.py` file by inserting a new `displayimagetask` after the previous `generateimagetask`.
 
 ```python hl_lines="12-18"
 # ...
 
 # Create tasks
-create_prompt_task = PromptTask(
+createprompttask = PromptTask(
     # ...
 )
 
-generate_image_task = PromptTask(
+generateimagetask = PromptTask(
     # ...
 )
 
-display_image_task = PromptTask(
+displayimagetask = PromptTask(
     """
     Pretend to display the image to the user. 
     {{ parent_output }}.
@@ -431,7 +431,7 @@ Add the new task to the line where we `add_tasks` to the pipeline.
 # ...
 
 # Add tasks to the pipeline
-pipeline.add_tasks(create_prompt_task, generate_image_task, display_image_task)
+pipeline.add_tasks(createprompttask, generateimagetask, displayimagetask)
 
 # ...
 ```

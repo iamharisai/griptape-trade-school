@@ -70,23 +70,23 @@ In this course, we will be focusing mostly on **Prompt Tasks**, **Image Generati
 ```python
 # Example PromptTask to create a Image Generation Prompt
 #
-image_prompt_task = PromptTask(
+imageprompttask = PromptTask(
     "Create a prompt for an image generation engine that will make a watercolor painting of: {{ topic }}",
     context = {                        
         "topic": "butterfly" 
     },
-    id="image_prompt_task"   # task id can be referenced by other tasks
+    id="imageprompttask"   # task id can be referenced by other tasks
 )
 
 # This Image Generation task works with the output of the parent task.
 #
-image_generation_task = PromptImageGenerationTask(
+imagegenerationtask = PromptImageGenerationTask(
     "{{ parent_output }}", # The output of the parent task
     image_generation_driver=OpenAiImageGenerationDriver(
         model="dall-e-3", api_type="open_ai", image_size="1024x1024"
     ),
     output_dir="./images",
-    id="image_generation_task"
+    id="imagegenerationtask"
 )
 ```
 

@@ -82,12 +82,12 @@ image_driver = OpenAiImageGenerationDriver(
 
 ### Replace the ImageTask
 
-Next, we'll replace our fake image generation task with a _real_ image generation task. Find the section of the code where we're creating the image task with `generate_image_task` and replace it with `PromptImageGenerationTask`.
+Next, we'll replace our fake image generation task with a _real_ image generation task. Find the section of the code where we're creating the image task with `generateimagetask` and replace it with `PromptImageGenerationTask`.
 
 ```python
 # ...
 
-generate_image_task = PromptImageGenerationTask(
+generateimagetask = PromptImageGenerationTask(
     "{{ parent_output }}",
     image_generation_driver=image_driver,
     output_dir="images",
@@ -171,12 +171,12 @@ In order to discover that, we need to know what kind of `Artifact` the task outp
 
 However, if we do this with our code you'll see that the `value` being passed back from the ImageGenerationTask are the _raw bytes of the image_. It's _way_ too big for the LLM, and isn't what we want anyway. 
 
-To demonstrate (and so you don't need to do it yourself), I'm going to replace the `{{ parent_output }}` in the `display_image_task` with `{{ parent.output.value }}` and show the results.
+To demonstrate (and so you don't need to do it yourself), I'm going to replace the `{{ parent_output }}` in the `displayimagetask` with `{{ parent.output.value }}` and show the results.
 
 ```python hl_lines="6"
 # ...
 
-display_image_task = PromptTask(
+displayimagetask = PromptTask(
     """
     Pretend to display the image to the user. 
     {{ parent.output.value }}
@@ -265,12 +265,12 @@ How about that `name` attribute? It says it's the name of the artifact, generate
 
 Navigate back to your `app.py` in Visual Studio Code.
 
-Inside the `display_image_task` section, replace `{{ parent_output }}` with `{{ parent.output.name }}`.
+Inside the `displayimagetask` section, replace `{{ parent_output }}` with `{{ parent.output.name }}`.
 
 ```python title="app.py" hl_lines="6"
 # ...
 
-display_image_task = PromptTask(
+displayimagetask = PromptTask(
     """
     Pretend to display the image to the user. 
     {{ parent.output.name }}
@@ -323,14 +323,14 @@ output_dir = "images"
 # ...
 ```
 
-### Replace in `generate_image_task`
+### Replace in `generateimagetask`
 
-Now go down to the `generate_image_task` and use the `output_dir` variable in the `PromptImageGenerationTask`.
+Now go down to the `generateimagetask` and use the `output_dir` variable in the `PromptImageGenerationTask`.
 
 ```python title="app.py" hl_lines="6"
 # ...
 
-generate_image_task = PromptImageGenerationTask(
+generateimagetask = PromptImageGenerationTask(
     "{{ parent_output }}",
     image_generation_driver=image_driver,
     output_dir=output_dir,
@@ -340,14 +340,14 @@ generate_image_task = PromptImageGenerationTask(
 # ...
 ```
 
-### Create context in `display_image_task`
+### Create context in `displayimagetask`
 
-Finally, back to the `display_image_task`, we'll create a `context`, provide the `output_dir`, and use it in our prompt.
+Finally, back to the `displayimagetask`, we'll create a `context`, provide the `output_dir`, and use it in our prompt.
 
 ```python title="app.py" hl_lines="6 8"
 # ...
 
-display_image_task = PromptTask(
+displayimagetask = PromptTask(
     """
     Pretend to display the image to the user. 
     {{output_dir}}/{{ parent.output.name }}
@@ -390,4 +390,4 @@ Our next task is to replace our fake Display Image with a real one. There are a 
 
 All three of these methods are valid, but in the context of this course, we're going to learn how to use the `CodeExecutionTask` to run a simple Python function within the Pipeline. This will be a great example of how to include generic Python code within Pipelines and Workflows _that does not hit an LLM_.
 
-Let's dive in and learn how to use the `CodeExecutionTask` to [display an image](07_display_image_task.md).
+Let's dive in and learn how to use the `CodeExecutionTask` to [display an image](07_displayimagetask.md).

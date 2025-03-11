@@ -108,7 +108,7 @@ We'll use this combination of techniques to send the `output_dir` and the name o
 
 ## Add Display Image Task
 
-First, let's change the `display_image_task` from a `PromptTask` to a `CodeExecutionTask`. 
+First, let's change the `displayimagetask` from a `PromptTask` to a `CodeExecutionTask`. 
 
 ### Import `CodeExecutionTask`
 
@@ -125,14 +125,14 @@ from griptape.tasks import (
 ```
 
 
-### Modify display_image_task
+### Modify displayimagetask
 
-Change the `display_image_task` from a `PromptTask` to a `CodeExecutionTask`. We'll then modify the prompt to just take the image name, and also provide the `on_run`. Note, we haven't _created_ the function yet, we'll do that in the next step.
+Change the `displayimagetask` from a `PromptTask` to a `CodeExecutionTask`. We'll then modify the prompt to just take the image name, and also provide the `on_run`. Note, we haven't _created_ the function yet, we'll do that in the next step.
 
 ```python title="app.py" hl_lines="3 4 6"
 # ...
 
-display_image_task = CodeExecutionTask(
+displayimagetask = CodeExecutionTask(
     "{{ parent.output.name }}",
     context={"output_dir": output_dir},
     on_run=display_image,
@@ -144,7 +144,7 @@ display_image_task = CodeExecutionTask(
 
 ## Create Display Image Function
 
-Now we get to create the `display_image` function that the `CodeExecutionTask` will run. You can create this anywhere in your code _before_ you create the `display_image_task`, however, to ensure your code is easy to read I recommend you do it before you instantiate the Pipeline. Before creating it, we'll need to import one more item.
+Now we get to create the `display_image` function that the `CodeExecutionTask` will run. You can create this anywhere in your code _before_ you create the `displayimagetask`, however, to ensure your code is easy to read I recommend you do it before you instantiate the Pipeline. Before creating it, we'll need to import one more item.
 
 ### Import TextArtifact
 
